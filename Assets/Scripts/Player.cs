@@ -15,7 +15,11 @@ public class Player : MonoBehaviour
     {
         controller = gameObject.AddComponent<CharacterController>();
         currentCamera = Camera.main;
+
+        Cursor.lockState = CursorLockMode.Locked; // Locks the cursor to the center of the screen, required for  accurate mouse positioning for placing objects
+        // Center entire controller (including camera) on the player
         controller.center = playerCollider.bounds.center;
+        currentCamera.transform.position = playerCollider.bounds.center;
         controller.enableOverlapRecovery = true;
         // Should be scaled to fit character model
         controller.height = 0.1f;
@@ -27,9 +31,15 @@ public class Player : MonoBehaviour
     {
         float h = Input.GetAxis("Mouse X") * mouseSensitivity;
         float v = Input.GetAxis("Mouse Y") * mouseSensitivity;
-        //controller.transform.Rotate(0, h, 0);
+
+        // Rotate the camera around the player horizontally
         controller.transform.RotateAround(playerCollider.bounds.center, Vector3.up, h);
-        currentCamera.transform.RotateAround(playerCollider.bounds.center, currentCamera.transform.right, -v);
+
+        //Restrict camera movement to 180 degrees in the vertical axis to avoid looking upside down
+        if(currentCamera.transform.localEulerAngles.x - v > 270 || currentCamera.transform.localEulerAngles.x - v < 90) {
+            // Rotate the camera around the player vertically
+            currentCamera.transform.RotateAround(playerCollider.bounds.center, currentCamera.transform.right, -v);
+        }
 
         float modifiedSpeed = playerSpeed;
 
