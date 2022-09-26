@@ -45,8 +45,9 @@ public class CubePlacer : MonoBehaviour
 
     private void PlaceCubeNear(Vector3 clickPoint) {
         Vector3 nearestPoint = grid.GetNearestPointOnGrid(clickPoint);
-
+        nearestPoint.y = 0.2f;
         GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        cube.transform.localScale = new Vector3(grid.Size, grid.Size, grid.Size);
         cube.transform.position = nearestPoint;
     }
 }

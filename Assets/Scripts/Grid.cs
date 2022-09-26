@@ -5,20 +5,20 @@ using UnityEngine;
 public class Grid : MonoBehaviour
 {
     [SerializeField]
-    private float size = 2.0f;
+    public float Size = 0.5f;
 
     public Vector3 GetNearestPointOnGrid(Vector3 position)
     {
         position -= transform.position;
 
-        int xCount = Mathf.RoundToInt(position.x / size);
-        int yCount = Mathf.RoundToInt(position.y / size);
-        int zCount = Mathf.RoundToInt(position.z / size);
+        int xCount = Mathf.RoundToInt(position.x / Size);
+        int yCount = Mathf.RoundToInt(position.y / Size);
+        int zCount = Mathf.RoundToInt(position.z / Size);
 
         Vector3 result = new Vector3(
-            (float)xCount * size,
-            (float)yCount * size,
-            (float)zCount * size
+            (float)xCount * Size,
+            (float)yCount * Size,
+            (float)zCount * Size
         );
 
         result += transform.position;
@@ -28,9 +28,9 @@ public class Grid : MonoBehaviour
 
     private void OnDrawGizmos() {
         Gizmos.color = Color.green;
-        for (float x = 0; x < 40; x += size)
+        for (float x = 0; x < 40; x += Size)
         {
-            for (float z = 0; z < 40; z += size)
+            for (float z = 0; z < 40; z += Size)
             {
                 var point = GetNearestPointOnGrid(new Vector3(x, 0f, z));
                 Gizmos.DrawSphere(point, 0.02f);
